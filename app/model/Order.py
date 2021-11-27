@@ -4,12 +4,6 @@ from sqlalchemy.orm import relationship
 from app import db
 
 
-class OrderStatus(sqlalchemy.types.Enum):
-    ordered = "Ordered"
-    progress = "In progress"
-    delivered = "Delivered"
-
-
 class Order(db.Model):
     __tablename__ = "order"
 
@@ -20,5 +14,5 @@ class Order(db.Model):
     date_delivered = db.Column(db.DateTime)
     lat = db.Column(db.Float, nullable=False)
     lon = db.Column(db.Float, nullable=False)
-    status = db.Column(db.Enum("ordered", "in_progress", "delivered", name="order_status"), nullable=False)
+    status = db.Column(db.Enum("created", "ordered", "in_progress", "delivered", name="order_status"), nullable=False)
     order_item = relationship("OrderItem", lazy="select")
