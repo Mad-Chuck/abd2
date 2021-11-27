@@ -16,4 +16,4 @@ COPY requirements.txt .
 
 # Install any dependencies
 RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.tx
+RUN pip3 install -r requirements.txt

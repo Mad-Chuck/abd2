@@ -1,3 +1,5 @@
+from sqlalchemy.orm import relationship
+
 from app import db
 
 
@@ -10,3 +12,4 @@ class Supplier(db.Model):
     phone = db.Column(db.String(12), nullable=False)
     lat = db.Column(db.Float)
     lon = db.Column(db.Float)
+    order = relationship("Order")
