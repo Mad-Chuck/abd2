@@ -2,7 +2,7 @@ from datetime import datetime
 from operator import or_
 from typing import List
 
-from flask import jsonify, request
+from flask import jsonify, request, render_template, redirect, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import func, and_
 
@@ -20,28 +20,16 @@ def orders_history():
               .filter(Order.consumer_id == current_user.id)
               .all())
 
-    # todo: add template for order list
-
-    return jsonify({
-        'orders number': len(orders)
-    })
+    return render_template('orders_history.html', orders=orders)
 
 
 @app.route('/place_order', methods=['GET'])
 @login_required
-def place_an_order():
+def place_order_form():
     order = _get_created_order()
     products = _get_products()
 
-    # todo: add template with buttons:
-    #   Add product -> POST /add_order_item
-    #   Delete product -> GET /delete_order_item/<order_item_id>
-    #   Place order -> POST /patch_order/<order_id>
-    return jsonify({
-        'id': order.id,
-        'name': order.status,
-        'products number': len(products)
-    })
+    return render_template('place_order.html', order=order, products=products)
 
 
 @app.route('/patch_order/<order_id>', methods=['POST'])
@@ -53,18 +41,17 @@ def patch_order(order_id: str):
         return f'Invalid user.'
 
     try:
-        order_json = request.get_json()
         Order.query.filter_by(id=int(order_id)).update({
             'date_ordered': datetime.now(),
-            'lat': float(order_json['lat']),
-            'lon': float(order_json['lon']),
-            'status': order_json['status'], # todo: add method for status update
+            'lat': float(request.form.get('lat')),
+            'lon': float(request.form.get('lon')),
+            'status': request.form.get('status'), # todo: add method for status update
         })
         db.session.commit()
     except Exception as exc:
         db.session.rollback()
         raise exc
-    return f'Order with {order_id} id updated.'
+    return redirect(url_for('orders_history'))
 
 
 @app.route('/update_order_status', methods=['GET'])

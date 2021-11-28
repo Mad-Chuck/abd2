@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if orders|length > 0 %}
+        <table>
+            <tr>
+                <th>Date ordered</th>
+                <th>Date delivered</th>
+                <th>Worth</th>
+                <th>Status</th>
+            </tr>
+            {% for order in orders %}
+                <tr>
+                    <td>{{ order.date_ordered }}</td>
+                    <td>{{ order.date_ordered }}</td>
+                    <td>{{ order.worth }}</td>
+                    <td>{{ order.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>No orders</h3>
+    {% endif %}
+{% endblock %}

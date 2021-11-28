@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if order.order_item|length > 0 %}
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Count</th>
+                <th>Worth</th>
+                <th></th>
+            </tr>
+            {% for item in order.order_item %}
+                <tr>
+                    <td>TODO</td>
+                    <td>{{ item.count }}</td>
+                    <td>{{ item.worth }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_order_item', item_id=item.id) }}" method="post">
+                            <input type="submit" value="Remove">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h3>No products in order</h3>
+    {% endif %}
+
+    <button onclick="document.getElementById('product_list').style.display = 'block';">Add product</button>
+
+    <div id="product_list">
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>
+                        <form action="{{ url_for('add_order_item') }}" method="post">
+                            <input type="hidden" name="product_id" value="{{ product.id }}">
+                            <input type="hidden" name="order_id" value="{{ order.id }}">
+                            <input type="hidden" name="worth" value="{{ product.price }}">
+                            <input type="hidden" name="count" value="1">
+                            <input type="submit" value="Add">
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script>
+    document.getElementById('product_list').style.display = 'none';
+    </script>
+
+    {% if order.order_item|length > 0 %}
+        <h3>Where to deliver?</h3>
+        <form action="{{ url_for('patch_order', order_id=order.id) }}" method="post">
+            <label for="lat">Lat:</label>
+            <br>
+            <input type="text" name="lat" id="lat">
+            <br>
+            <label for="lon">Lon:</label>
+            <br>
+            <input type="text" name="lon" id="lon">
+            <input type="hidden" name="status" value="ordered">
+            <br>
+            <br>
+            <input type="submit" value="Order with obligation of payment">
+        </form>
+    {% endif %}
+{% endblock %}
