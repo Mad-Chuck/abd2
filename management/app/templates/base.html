@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Supplier database app</title>
+    <title>Management</title>
 </head>
 <body>
+    <header>
+        <h1><a href="{{ url_for('main') }}">Management</a></h1>
+
+        {% if current_user.is_authenticated %}
+            Hello supplier number {{ current_user.id }}.
+        {% endif %}
+        <nav>
+            <ul>
+                {% if not current_user.is_authenticated %}
+                    <li><a href="{{ url_for('login_form') }}">Log in</a></li>
+                {% elif current_user.is_authenticated %}
+                    <li><a href="{{ url_for('orders_history_form') }}">Orders history</a></li>
+                    <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     {% block content %}
     {% endblock %}
 </body>

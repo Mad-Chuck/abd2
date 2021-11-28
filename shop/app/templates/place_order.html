@@ -12,7 +12,7 @@
             </tr>
             {% for item in order.order_item %}
                 <tr>
-                    <td>TODO</td>
+                    <td>{{ item.get_name() }}</td>
                     <td>{{ item.count }}</td>
                     <td>{{ item.worth }}</td>
                     <td>

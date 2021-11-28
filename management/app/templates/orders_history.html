@@ -6,16 +6,18 @@
         <table>
             <tr>
                 <th>Order number</th>
-                <th>Date ordered</th>
-                <th>Date delivered</th>
-                <th>Status</th>
+                <th>Localization</th>
+                <th></th>
             </tr>
             {% for order in orders %}
                 <tr>
                     <td>{{ order.id }}</td>
-                    <td>{{ order.date_ordered }}</td>
-                    <td>{{ order.date_delivered }}</td>
-                    <td>{{ order.status }}</td>
+                    <td>{{ order.lat }}, {{ order.lon }}</td>
+                    <td>
+                        <form action="{{ url_for('orders_history', order_id=order.id) }}" method="post">
+                            <input type="submit" value="Mark as delivered">
+                        </form>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
