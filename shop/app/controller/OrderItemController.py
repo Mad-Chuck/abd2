@@ -30,7 +30,7 @@ def add_order_item():
 
 @app.route('/delete_order_item/<item_id>', methods=['POST'])
 @login_required
-def add_order_item(item_id: str):
+def delete_order_item(item_id: str):
     if db.session.query(OrderItem).get(int(item_id)) is None:
         return f'OrderItem with {item_id} id not found.'
     try:
