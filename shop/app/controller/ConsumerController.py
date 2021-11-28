@@ -22,14 +22,46 @@ def login():
 
     user = Consumer.query.filter_by(email=email, password=password).first()
     if user is None:
-        flash('Login failed')
+        flash('Log in failed')
     else:
         login_user(user)
-        flash('Login successful')
-    return render_template('login.html')
+        flash('Logged in successfully')
+    return redirect(url_for('login_form'))
+
 
 @app.route('/consumer/logout', methods=['GET'])
 @login_required
 def logout():
     logout_user()
-    return render_template('logout.html')
+    flash('Logged out successfully')
+    return redirect(url_for('login'))
+
+
+@app.route('/consumer/signup', methods=['GET'])
+def signup_form():
+    return render_template('signup.html')
+
+
+@app.route('/consumer/signup', methods=['POST'])
+def signup():
+    email = request.form.get('email')
+    phone = request.form.get('phone')
+    password = request.form.get('password')
+    password_coded = code_password(password)
+    password_confirm = request.form.get('password_confirm')
+
+    if password != password_confirm:
+        flash('Passwords do not match')
+        return redirect(url_for('signup'))
+
+    user = Consumer.query.filter_by(email=email).first()
+    if not (user is None):
+        flash('User already exists')
+        return redirect(url_for('signup'))
+
+    user = Consumer(email=email, password=password_coded, phone=phone)
+    db.session.add(user)
+    db.session.commit()
+
+    flash("Signed up successfully. You can now log in")
+    return redirect(url_for('login_form'))
