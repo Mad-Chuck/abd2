@@ -10,6 +10,7 @@ migrate = Migrate(app, db)
 from .models import *
 from .controller import *
 
+
 @app.route('/', methods=['GET'])
 def get_healthcheck():
     return 'management is up.'
