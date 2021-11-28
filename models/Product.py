@@ -1,6 +1,6 @@
 from sqlalchemy.orm import relationship
 
-from app import db
+from .. import db
 
 
 class Product(db.Model):
@@ -10,4 +10,4 @@ class Product(db.Model):
     name = db.Column(db.String(127), nullable=False)
     description = db.Column(db.String(255))
     price = db.Column(db.Float, nullable=False)
-    order_item = relationship("Order")
+    order_item = relationship("OrderItem")

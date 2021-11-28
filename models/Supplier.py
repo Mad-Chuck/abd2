@@ -1,6 +1,6 @@
 from sqlalchemy.orm import relationship
 
-from app import db
+from .. import db
 
 
 class Supplier(db.Model):
