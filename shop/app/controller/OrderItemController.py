@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from flask import jsonify, request
+from flask import jsonify, request, flash, url_for, redirect
 from flask_login import login_required, current_user
 
 from ..models.Product import Product
@@ -12,20 +12,25 @@ from .. import app, db
 @app.route('/add_order_item', methods=['POST'])
 @login_required
 def add_order_item():
+    order_id = request.form.get('order_id')
+    product_id = request.form.get('product_id')
+    count = request.form.get('count')
+    worth = request.form.get('worth')
+
     try:
-        order_item_json = request.get_json()
         order_item = OrderItem(
-            order_id=order_item_json['order_id'],
-            product_id=order_item_json['product_id'],
-            count=order_item_json['count'],
-            worth=order_item_json['worth'],
+            order_id=order_id,
+            product_id=product_id,
+            count=count,
+            worth=worth
         )
         db.session.add(order_item)
         db.session.commit()
     except Exception as exc:
         db.session.rollback()
         raise exc
-    return f'Order Item {order_item.id} id created.'
+    flash('Item added to order')
+    return redirect(url_for('place_order_form'))
 
 
 @app.route('/delete_order_item/<item_id>', methods=['POST'])
@@ -39,4 +44,5 @@ def delete_order_item(item_id: str):
     except Exception as e:
         db.session.rollback()
         raise e
-    return f'Item with {item_id} id deleted from database.'
+    flash('Item deleted from order')
+    return redirect(url_for('place_order_form'))

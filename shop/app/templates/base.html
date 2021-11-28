@@ -17,6 +17,8 @@
                     <li><a href="{{ url_for('login_form') }}">Log in</a></li>
                     <li><a href="{{ url_for('signup_form') }}">Sign up</a></li>
                 {% elif current_user.is_authenticated %}
+                    <li><a href="{{ url_for('place_order_form') }}">Order</a></li>
+                    <li><a href="{{ url_for('orders_history') }}">Orders history</a></li>
                     <li><a href="{{ url_for('logout') }}">Log out</a></li>
                 {% endif %}
             </ul>
