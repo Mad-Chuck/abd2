@@ -6,16 +6,19 @@
 </head>
 <body>
     <header>
-        <h1>Shop</h1>
+        <h1><a href="{{ url_for('main') }}">Shop</a></h1>
 
         {% if current_user.is_authenticated %}
             Hello {{ current_user.email }}. Your id is {{ current_user.id }}.
         {% endif %}
         <nav>
             <ul>
-                <li><a href="{{ url_for('login_form') }}">Log in</a></li>
-                <li><a href="{{ url_for('signup_form') }}">Sign up</a></li>
-                <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                {% if not current_user.is_authenticated %}
+                    <li><a href="{{ url_for('login_form') }}">Log in</a></li>
+                    <li><a href="{{ url_for('signup_form') }}">Sign up</a></li>
+                {% elif current_user.is_authenticated %}
+                    <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
