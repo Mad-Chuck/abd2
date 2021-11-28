@@ -5,6 +5,20 @@
     <title>Shop</title>
 </head>
 <body>
+    <header>
+        <h1>Shop</h1>
+
+        {% if current_user.is_authenticated %}
+            Hello {{ current_user.email }}. Your id is {{ current_user.id }}.
+        {% endif %}
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('login_form') }}">Log in</a></li>
+                <li><a href="{{ url_for('logout') }}">Log out</a></li>
+            </ul>
+        </nav>
+    </header>
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="notification is-danger">

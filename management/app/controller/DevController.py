@@ -1,5 +1,5 @@
 """For develop purpose only"""
-
+from flask import session
 from .. import app, db
 
 
@@ -16,3 +16,9 @@ def drop_db():
     db.drop_all()
     db.session.commit()
     return 'Database deleted.'
+
+
+@app.route('/clear-session', methods=['DELETE'])
+def clear_session():
+    session.clear()
+    return 'Session cleared'

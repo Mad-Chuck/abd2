@@ -1,21 +1,32 @@
-import flask
-from flask import render_template, redirect, url_for, flash, request
+import hashlib
+from flask import render_template, flash, request, redirect, url_for
 from flask_login import login_user, logout_user, login_required
+
 from .. import app, db
+from ..models.Consumer import Consumer
+
+
+def code_password(password: str) -> str:
+    return hashlib.sha256(password.encode()).hexdigest()
 
 
 @app.route('/consumer/login', methods=['GET'])
 def login_form():
     return render_template('login.html')
+
+
+@app.route('/consumer/login', methods=['POST'])
+def login():
     email = request.form.get('email')
-    password = request.form.get('password')
+    password = code_password(request.form.get('password'))
 
-    user = Consumer.query.filter_by(email=email).first()
-    #login_user(user)
-
-    flash('Logged in successfully.')
+    user = Consumer.query.filter_by(email=email, password=password).first()
+    if user is None:
+        flash('Login failed')
+    else:
+        login_user(user)
+        flash('Login successful')
     return render_template('login.html')
-
 
 @app.route('/consumer/logout', methods=['GET'])
 @login_required

@@ -17,14 +17,14 @@ VALUES ('Redmi 10', 1200);
 
 TRUNCATE consumer RESTART IDENTITY CASCADE;
 insert into consumer (email, password, phone)
-VALUES ('123@123.pl', '-4252508476332522232', '123123123');
+VALUES ('123@123.pl', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '123123123');
 insert into consumer (email, password, phone)
-VALUES ('1234@1234.pl', '-9156641935121768956', '123412341234');
+VALUES ('1234@1234.pl', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '123412341234');
 
 
 TRUNCATE supplier RESTART IDENTITY CASCADE;
 insert into supplier (email, password, phone)
-VALUES ('12345@12345.pl', '-3151639085879697209', '1234512345');
+VALUES ('12345@12345.pl', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '1234512345');
 
 TRUNCATE "order" RESTART IDENTITY CASCADE;
 insert into "order" (consumer_id, date_ordered, lat, lon, status)
