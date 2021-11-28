@@ -26,17 +26,6 @@ def place_order_form():
     order = _get_created_order()
     products = _get_products()
 
-    # todo: add template with buttons:
-    #   Add product -> POST /add_order_item
-    #   Delete product -> GET /delete_order_item/<order_item_id>
-    #   Place order -> POST /patch_order/<order_id>
-    #
-    # return jsonify({
-    #     'id': order.id,
-    #     'name': order.status,
-    #     'products number': len(products)
-    # })
-
     return render_template('place_order.html', order=order, products=products)
 
 
