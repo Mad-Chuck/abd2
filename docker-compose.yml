@@ -1,28 +1,63 @@
 version: '3.8'
 services:
-  web:
-    build: .
+  shop:
+    build: shop
     command: flask run -h 0.0.0.0
     volumes:
-      - ./app:/app
+      - ./shop/app:/app
+      - ./models:/app/models
       - ./migrations:/migrations
     environment:
       FLASK_DEBUG: 1
       FLASK_APP: ./__init__.py
       DATABASE_URL: postgresql://flaskapp:flaskapp@db:5432/flaskapp_dev
-    ports:
-      - 5000:5000
-    depends_on:
-      - db
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.shop.rule=Host(`shop.localhost`)
+      - traefik.http.routers.shop.entrypoints=web
+      - traefik.port=5000
+
+  management:
+    build: management
+    command: flask run -h 0.0.0.0
+    volumes:
+      - ./management/app:/app
+      - ./models:/app/models
+      - ./migrations:/migrations
+    environment:
+      FLASK_DEBUG: 1
+      FLASK_APP: ./__init__.py
+      DATABASE_URL: postgresql://flaskapp:flaskapp@db:5432/flaskapp_dev
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.management.rule=Host(`management.localhost`)
+      - traefik.http.routers.management.entrypoints=web
+      - traefik.port=5000
+
   db:
     image: postgres:13-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+#    volumes:
+#      - postgres_data:/var/lib/postgresql/data/
     ports:
       - 5432:5432
     environment:
       - POSTGRES_USER=flaskapp
       - POSTGRES_PASSWORD=flaskapp
       - POSTGRES_DB=flaskapp_dev
-volumes:
-  postgres_data:
+
+  traefik:
+    image: traefik:v2.5
+    command:
+    - --api.insecure=true
+    - --providers.docker=true
+    - --providers.docker.exposedbydefault=false
+    - --entrypoints.web.address=:80
+    ports:
+      # The HTTP port
+      - "80:80"
+      # The Web UI (enabled by --api.insecure=true)
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+#volumes:
+#  postgres_data:

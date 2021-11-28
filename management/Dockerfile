@@ -8,7 +8,6 @@ EXPOSE 5000/tcp
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# Set the working directory in the container
 WORKDIR /app
 
 # Copy the dependencies file to the working directory

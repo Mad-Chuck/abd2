@@ -1,7 +1,7 @@
 -- Run after database reset
 TRUNCATE product RESTART IDENTITY CASCADE;
 insert into product (name, description, price)
-VALUES ('Samsung galaxy s20', 'Newest model from samsung s series.', 2999.99);
+VALUES ('Samsung galaxy s20', 'Newest models from samsung s series.', 2999.99);
 insert into product (name, description, price)
 VALUES ('Iphone 13', 'The most expensive smartphone on market.', 4999.99);
 insert into product (name, description, price)
