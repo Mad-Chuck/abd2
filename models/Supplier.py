@@ -1,9 +1,10 @@
+from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 
 from app import db
 
 
-class Supplier(db.Model):
+class Supplier(db.Model, UserMixin):
     __tablename__ = "supplier"
 
     id = db.Column(db.Integer, primary_key=True)

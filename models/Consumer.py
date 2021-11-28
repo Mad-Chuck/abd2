@@ -1,9 +1,10 @@
+from flask_login import UserMixin
 from sqlalchemy.orm import relationship
 
 from app import db
 
 
-class Consumer(db.Model):
+class Consumer(db.Model, UserMixin):
     __tablename__ = "consumer"
 
     id = db.Column(db.Integer, primary_key=True)
