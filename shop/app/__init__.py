@@ -21,6 +21,7 @@ def load_user(user_id):
 
 from .controller import *
 
+
 @app.route('/', methods=['GET'])
 def get_healthcheck():
     return 'shop is up.'

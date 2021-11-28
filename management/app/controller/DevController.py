@@ -1,6 +1,6 @@
 """For develop purpose only"""
 
-from app import app, db
+from .. import app, db
 
 
 @app.route('/recreate-db', methods=['PATCH'])
