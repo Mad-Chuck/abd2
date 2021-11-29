@@ -23,8 +23,8 @@ VALUES ('1234@1234.pl', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f
 
 
 TRUNCATE supplier RESTART IDENTITY CASCADE;
-insert into supplier (email, password, phone)
-VALUES ('12345@12345.pl', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '1234512345');
+insert into supplier (email, password, phone, lat, lon)
+VALUES ('12345@12345.pl', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', '1234512345', 51.123, 47.123);
 
 TRUNCATE "order" RESTART IDENTITY CASCADE;
 insert into "order" (consumer_id, date_ordered, lat, lon, status)
